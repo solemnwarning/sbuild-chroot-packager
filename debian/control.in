@@ -1,0 +1,17 @@
+Source: %PACKAGE_NAME%
+Priority: extra
+Maintainer: Daniel Collins <solemnwarning@solemnwarning.net>
+Build-Depends:
+ debhelper (>= 9),
+ debootstrap,
+ sbuild,
+ schroot
+Standards-Version: 3.9.4
+Section: devel
+
+Package: %PACKAGE_NAME%
+Architecture: all
+Depends:
+ ${misc:Depends},
+ schroot
+Description: %SUITE% %ARCH% sbuild chroot

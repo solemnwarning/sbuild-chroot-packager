@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export SUITE := %SUITE%
+export ARCH := %ARCH%
+export MIRROR := %MIRROR%
+
+%:
+	dh $@
+
+override_dh_fixperms:
+override_dh_makeshlibs:
+override_dh_shlibdeps:
+override_dh_strip:
+override_dh_strip_nondeterminism:

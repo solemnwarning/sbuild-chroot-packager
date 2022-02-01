@@ -1,0 +1,5 @@
+%PACKAGE_NAME% (%PACKAGE_VERSION%) unstable; urgency=low
+
+  * Rebuild of %PACKAGE_NAME% at %BUILD_DATE%
+
+ -- Daniel Collins <solemnwarning@solemnwarning.net>  %BUILD_DATE%
