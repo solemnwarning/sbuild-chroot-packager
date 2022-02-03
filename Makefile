@@ -39,6 +39,9 @@ install:
 	# Build the chroot
 	sbuild-createchroot --arch=$(ARCH) $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR)
 	
+	# Add the "universe" component to any sources that look like Ubuntu.
+	sed -Ei -e 's/^(.*ubuntu.*\smain)$$/\1 universe/g' /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
+	
 	# Copy the chroot into DESTDIR
 	
 	mkdir -p $(DESTDIR)/srv/chroot/
