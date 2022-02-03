@@ -56,10 +56,6 @@ install:
 		-e 's/^profile=sbuild$$/profile=buildkite/' \
 		< $$(echo /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*) \
 		> $(DESTDIR)/$$(echo /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-* | sed -e 's/sbuild-/buildkite-/')
-	
-	cp -a /etc/schroot/sbuild $(DESTDIR)/etc/schroot/buildkite
-	echo '/var/lib/buildkite-agent/builds/  /var/lib/buildkite-agent/builds/  none  rw,bind  0  0' \
-		>> $(DESTDIR)/etc/schroot/buildkite/fstab
 
 .PHONY: buildpackage
 buildpackage:

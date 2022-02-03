@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+# Would be better to do this as a dedicated buildkite-schroot-config package or
+# something that all the chroot packages could depend upon...
+
+if [ ! -e /etc/schroot/buildkite ]
+then
+	cp -a /etc/schroot/sbuild /etc/schroot/buildkite
+	
+	echo "/var/lib/buildkite-agent/builds/  /var/lib/buildkite-agent/builds/  none  rw,bind  0  0" \
+		>> /etc/schroot/buildkite/fstab
+fi
