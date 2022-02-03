@@ -41,11 +41,11 @@ install:
 	
 	# Copy the chroot into DESTDIR
 	
-	mkdir -p $(DESTDIR)/srv/chroot-test/
-	cp -a /srv/chroot/$(SUITE)-$(ARCH)-sbuild $(DESTDIR)/srv/chroot-test/
+	mkdir -p $(DESTDIR)/srv/chroot/
+	cp -a /srv/chroot/$(SUITE)-$(ARCH)-sbuild $(DESTDIR)/srv/chroot/
 	
 	mkdir -p $(DESTDIR)/etc/schroot/chroot.d/
-	cp $$(echo /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*) $(DESTDIR)/srv/chroot-test/
+	cp $$(echo /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*) $(DESTDIR)/etc/schroot/chroot.d/
 	
 	# Make a -buildkite variant of the chroot, which is like the -sbuild
 	# variant, except /var/lib/buildkite-agent/builds/ is also bind mounted
