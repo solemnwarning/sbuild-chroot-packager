@@ -51,7 +51,8 @@ install:
 		echo 'deb $(MIRROR) $(SUITE)-updates main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
 		echo 'deb-src $(MIRROR) $(SUITE)-updates main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
 		echo 'deb $(MIRROR) $(SUITE)-security main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
-		echo 'deb-src $(MIRROR) $(SUITE)-security main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
+		echo 'deb-src $(MIRROR) $(SUITE)-security main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list || \
+		true
 	
 	# Add the "universe" component to any sources that look like Ubuntu.
 	sed -Ei -e 's/^(.*ubuntu.*\smain)$$/\1 universe/g' /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
