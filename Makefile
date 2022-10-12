@@ -39,6 +39,13 @@ install:
 	# Build the chroot
 	sbuild-createchroot --arch=$(ARCH) $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR)
 	
+	# Enable overlay on chroot.
+	# (The test command ensures only one matching config exists)
+	test -e "$$(echo /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*)"
+	sed -Ei -e 's/^union-type=.*$$/union-type=overlay/g' /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*
+	grep -Eq '^union-type=' /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-* || \
+		echo 'union-type=overlay' >> /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*
+	
 	# Add the "universe" component to any sources that look like Ubuntu.
 	sed -Ei -e 's/^(.*ubuntu.*\smain)$$/\1 universe/g' /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
 	
