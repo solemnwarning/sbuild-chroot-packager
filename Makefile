@@ -46,8 +46,21 @@ install:
 	grep -Eq '^union-type=' /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-* || \
 		echo 'union-type=overlay' >> /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-sbuild-*
 	
+	# Add the -updates and -security repositories to Ubuntu chroots...
+	[ "$$(grep '^ID=' /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/os-release | cut -d= -f2)" = 'ubuntu' ] && \
+		echo 'deb $(MIRROR) $(SUITE)-updates main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
+		echo 'deb-src $(MIRROR) $(SUITE)-updates main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
+		echo 'deb $(MIRROR) $(SUITE)-security main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list && \
+		echo 'deb-src $(MIRROR) $(SUITE)-security main' >> /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
+	
 	# Add the "universe" component to any sources that look like Ubuntu.
 	sed -Ei -e 's/^(.*ubuntu.*\smain)$$/\1 universe/g' /srv/chroot/$(SUITE)-$(ARCH)-sbuild/etc/apt/sources.list
+	
+	# Update the chroot (since we possibly just added Ubuntu's fecking "updates" repository...)
+	schroot -u root -c source:$(SUITE)-$(ARCH)-sbuild -d / -- apt-get -y update
+	schroot -u root -c source:$(SUITE)-$(ARCH)-sbuild -d / -- apt-get -y dist-upgrade
+	schroot -u root -c source:$(SUITE)-$(ARCH)-sbuild -d / -- apt-get -y autoremove
+	schroot -u root -c source:$(SUITE)-$(ARCH)-sbuild -d / -- apt-get -y clean
 	
 	# Copy the chroot into DESTDIR
 	
