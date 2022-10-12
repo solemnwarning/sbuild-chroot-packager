@@ -37,7 +37,7 @@ install:
 	! test -e /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-*
 	
 	# Build the chroot
-	sbuild-createchroot --arch=$(ARCH) $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR)
+	sbuild-createchroot --arch=$(ARCH) --exclude=usrmerge $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR)
 	
 	# Enable overlay on chroot.
 	# (The test command ensures only one matching config exists)
