@@ -7,11 +7,13 @@ This repository contains scripts used to build Debian packages containing prebui
 **NOTE**: Running `sbuild-createchroot` as part of `dpkg-buildpackage` is about as weird as it gets, and I couldn't figure out a way to get it working using any of the *nice* tools like `sbuild`, so the commands to build it look something like this:
 
 ```
-$ make debian SUITE=bullseye ARCH=amd64 MIRROR=http://deb.debian.org/debian/
+$ make debian SUITE=bullseye ARCH=amd64 MIRROR=http://deb.debian.org/debian/ SCRIPT=xxx
 $ schroot -c XXX -u root -- make buildpackage
 ```
 
 The chroot used by `schroot` must be configured to mount your working directory within the chroot.
+
+The `SCRIPT` parameter is optional and allows for bootstrapping a newer version of a distribution than exists under `/usr/share/debootstrap/scripts/` (e.g. `SUITE=lunar SCRIPT=gutsy`) will allow bootstrapping Ubuntu Lunar (23.04 under Debian 11).
 
 You could also just run `make buildpackage` (as root)... but that will debootstrap the chroot on your system and leave a few files scattered around under `/etc/`, so I'd stick to using schroot for it.
 

@@ -4,6 +4,7 @@
 export SUITE := %SUITE%
 export ARCH := %ARCH%
 export MIRROR := %MIRROR%
+export SCRIPT := %SCRIPT%
 
 %:
 	dh $@

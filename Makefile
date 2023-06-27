@@ -1,6 +1,7 @@
 # SUITE := bullseye
 # ARCH := amd64
 # MIRROR := http://ftp.uk.debian.org/
+# SCRIPT := sid
 
 PACKAGE_NAME := sbuild-chroot-$(SUITE)-$(ARCH)
 PACKAGE_VERSION := $(shell date -u '+%Y.%m.%d.%H.%M.%S')
@@ -20,6 +21,7 @@ debian/%: debian/%.in FORCE
 		-e 's?%SUITE%?$(SUITE)?g' \
 		-e 's?%ARCH%?$(ARCH)?g' \
 		-e 's?%MIRROR%?$(MIRROR)?g' \
+		-e 's?%SCRIPT%?$(SCRIPT)?g' \
 		-e 's?%PACKAGE_NAME%?$(PACKAGE_NAME)?g' \
 		-e 's?%PACKAGE_VERSION%?$(PACKAGE_VERSION)?g' \
 		-e 's?%BUILD_DATE%?$(BUILD_DATE)?g' \
@@ -37,7 +39,7 @@ install:
 	! test -e /etc/schroot/chroot.d/$(SUITE)-$(ARCH)-*
 	
 	# Build the chroot
-	sbuild-createchroot --arch=$(ARCH) --exclude=usrmerge $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR)
+	sbuild-createchroot --arch=$(ARCH) --exclude=usrmerge $(SUITE) /srv/chroot/$(SUITE)-$(ARCH)-sbuild/ $(MIRROR) $(SCRIPT)
 	
 	# Enable overlay on chroot.
 	# (The test command ensures only one matching config exists)
