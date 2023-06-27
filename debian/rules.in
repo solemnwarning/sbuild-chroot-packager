@@ -13,3 +13,7 @@ override_dh_makeshlibs:
 override_dh_shlibdeps:
 override_dh_strip:
 override_dh_strip_nondeterminism:
+
+# Force xz compression so the deb can be read on older Debian systems.
+override_dh_builddeb:
+	dh_builddeb -- -Zxz
